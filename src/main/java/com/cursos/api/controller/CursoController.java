@@ -1,5 +1,7 @@
 package com.cursos.api.controller;
 
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,9 +30,16 @@ public final class CursoController {
 		return null;
 	}
 
-	@GetMapping("/cursos")
-	public String findList() {
-		return "Listagem!";
+	@PostMapping("/cursos/list")
+	public List<Curso> findList() {
+		
+		try {
+			return CursoDAO.findList();
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return null;
 	}
 
 	@PostMapping("/cursos")
@@ -46,13 +55,25 @@ public final class CursoController {
 	}
 
 	@PutMapping("/cursos/{id}")
-	public String update(@RequestBody Curso curso) {
-		return "Sucesso!";
+	public Curso update(@RequestBody Curso curso) {
+		try {
+			return CursoDAO.update(curso);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		
+		return null;
 	}
 
 	@DeleteMapping("/cursos/{id}")
 	public String delete(@PathVariable Long id) {
-		return "ok";
+		
+		try {
+			return CursoDAO.delete(id);
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
+		return "FAIL!";
 	}
 
 }
